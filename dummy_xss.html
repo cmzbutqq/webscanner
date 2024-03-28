@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>XSS Vulnerability Test</title>
+  </head>
+  <body>
+    <h1>XSS Vulnerability Test Page</h1>
+    <form action="#" method="GET">
+      <label for="name">Enter your name:</label>
+      <input type="text" id="name" name="name" />
+      <button type="submit">Submit</button>
+    </form>
+    <div id="result"></div>
+
+    <script>
+      // 在页面加载时检查URL中的name参数，如果存在则触发XSS漏洞
+      window.onload = function () {
+        var urlParams = new URLSearchParams(window.location.search);
+        var name = urlParams.get("name");
+        if (name) {
+          document.getElementById("result").innerHTML =
+            "<p>Hello, " + name + "!</p>";
+        }
+      };
+    </script>
+  </body>
+</html>
