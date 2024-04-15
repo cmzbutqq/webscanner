@@ -4,27 +4,30 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>XSS Vulnerability Test</title>
+    <title>SQL Injection Vulnerability Test</title>
   </head>
   <body>
-    <h1>XSS Vulnerability Test Page</h1>
-    <form action="#" method="GET">
-      <label for="name">Enter your name:</label>
-      <input type="text" id="name" name="name" />
+    <h1>SQL Injection Vulnerability Test Page</h1>
+    <form action="#" method="GET" onsubmit="checkUserId(); return false;">
+      <label for="id">Enter user ID:</label>
+      <input type="text" id="id" name="id" />
       <button type="submit">Submit</button>
     </form>
     <div id="result"></div>
 
     <script>
-      // 在页面加载时检查URL中的name参数，如果存在则触发XSS漏洞
-      window.onload = function () {
-        var urlParams = new URLSearchParams(window.location.search);
-        var name = urlParams.get("name");
-        if (name) {
-          document.getElementById("result").innerHTML =
-            "<p>Hello, " + name + "!</p>";
-        }
-      };
+      function checkUserId() {
+        var userId = document.getElementById("id").value;
+        // 发送Ajax请求到后端，检查用户ID是否存在
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+          if (this.readyState == 4 && this.status == 200) {
+            document.getElementById("result").innerHTML = this.responseText;
+          }
+        };
+        xhttp.open("GET", "check_user.php?id=" + userId, true);
+        xhttp.send();
+      }
     </script>
   </body>
 </html>

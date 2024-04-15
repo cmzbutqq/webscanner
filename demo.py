@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import re
 
-# 检测XSS漏洞的函数
+# 检测XSS漏洞
 def detect_xss(url):
     try:
         response = requests.get(url)
@@ -20,7 +20,8 @@ def detect_xss(url):
     except Exception as e:
         print("!! ERROR:", str(e))
 
-# 检测SQL注入漏洞的函数
+# 检测SQL注入漏洞 TODO
+
 def detect_sql_injection(url):
     try:
         # 构造带有SQL注入Payload的URL
@@ -36,7 +37,7 @@ def detect_sql_injection(url):
     except Exception as e:
         print("!! ERROR:", str(e))
 
-# 检测CSRF漏洞的函数
+# 检测CSRF漏洞 TODO
 def detect_csrf(url, session):
     try:
         # 发送一个GET请求以获取页面内容和可能的CSRF令牌
@@ -58,7 +59,7 @@ def detect_csrf(url, session):
     except Exception as e:
         print("!! ERROR:", str(e))
 
-# 密码爆破函数
+# 密码爆破函数 TODO
 def try_login(url, username, password):
     try:
         # 构造登录请求
@@ -74,7 +75,7 @@ def try_login(url, username, password):
     except Exception as e:
         print("!! ERROR:", str(e))
 
-# 敏感信息泄露检测函数
+# 敏感信息泄露检测函数 TODO
 def detect_sensitive_info_leakage(url):
     try:
         response = requests.get(url)
@@ -88,7 +89,7 @@ def detect_sensitive_info_leakage(url):
     except Exception as e:
         print("!! ERROR:", str(e))
 
-# 目录遍历漏洞检测函数
+# 目录遍历漏洞检测函数 TODO
 def detect_directory_traversal(url):
     try:
         # 构造目录遍历Payload
@@ -103,7 +104,7 @@ def detect_directory_traversal(url):
     except Exception as e:
         print("!! ERROR:", str(e))
 
-# 服务端信息泄露检测函数
+# 服务端信息泄露检测函数 TODO
 def detect_server_info_leakage(url):
     try:
         response = requests.get(url)
@@ -116,26 +117,24 @@ def detect_server_info_leakage(url):
     except Exception as e:
         print("!! ERROR:", str(e))
 
-# 主函数
-def main():
-    print("Web Vulnerability Scanner CLI")
-    print("----------------------------")
-    url = input("Enter URL: ")
-    username = input("Enter the login-try username: ")
-    password = input("Enter the login-try password: ")
-    
-    # 创建一个会话对象，以便跨多个请求保持会话状态
-    session = requests.Session()
-    
-    vulnerabilities = []
-    print("Scanning")
-    detect_xss(url)
-    detect_sql_injection(url)
-    detect_csrf(url, session)
-    try_login(url, username, password)
-    detect_sensitive_info_leakage(url)
-    detect_directory_traversal(url)
-    detect_server_info_leakage(url)
 
-if __name__ == "__main__":
-    main()
+print("Web Vulnerability Scanner CLI")
+print("----------------------------")
+url = input("Enter URL: ")
+# username = input("Enter the login-try username: ")
+# password = input("Enter the login-try password: ")
+username = "admin"
+password = "password"
+
+# 创建一个会话对象，以便跨多个请求保持会话状态
+session = requests.Session()
+
+vulnerabilities = []
+print("Scanning")
+detect_xss(url)
+detect_sql_injection(url)
+detect_csrf(url, session)
+try_login(url, username, password)
+detect_sensitive_info_leakage(url)
+detect_directory_traversal(url)
+detect_server_info_leakage(url)
