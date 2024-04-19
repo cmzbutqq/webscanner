@@ -22,22 +22,22 @@ def detect_xss(url):
 
 # 检测SQL注入漏洞 TODO
 
-def detect_sql_injection(url):
-    try:
-        # 构造带有SQL注入Payload的URL
-        payload = "' OR 1=1--"
-        injection_url = url + "?id=" + payload
-        response = requests.get(injection_url)
+# def detect_sql_injection(url):
+#     try:
+#         # 构造带有SQL注入Payload的URL
+#         payload = "' OR 1=1--"
+#         injection_url = url + "?id=" + payload
+#         response = requests.get(injection_url)
         
-        # 分析响应，查找是否存在漏洞
-        if 'error in your SQL syntax' in response.text:
-            print("[+] SQL Injection Vulnerability Found!")
-        else:
-            print("x SQL Injection")
-    except Exception as e:
-        print("!! ERROR:", str(e))
+#         # 分析响应，查找是否存在漏洞
+#         if 'error in your SQL syntax' in response.text:
+#             print("[+] SQL Injection Vulnerability Found!")
+#         else:
+#             print("x SQL Injection")
+#     except Exception as e:
+#         print("!! ERROR:", str(e))
 
-# 检测CSRF漏洞 TODO
+# 检测CSRF漏洞
 def detect_csrf(url, session):
     try:
         # 发送一个GET请求以获取页面内容和可能的CSRF令牌
@@ -59,7 +59,7 @@ def detect_csrf(url, session):
     except Exception as e:
         print("!! ERROR:", str(e))
 
-# 密码爆破函数 TODO
+# 密码爆破函数
 def try_login(url, username, password):
     try:
         # 构造登录请求
@@ -75,47 +75,7 @@ def try_login(url, username, password):
     except Exception as e:
         print("!! ERROR:", str(e))
 
-# 敏感信息泄露检测函数 TODO
-def detect_sensitive_info_leakage(url):
-    try:
-        response = requests.get(url)
-        # 在页面源代码中查找敏感信息，例如密码、API密钥等
-        sensitive_info = re.findall(r'(password|api_key|secret_key)=\w+', response.text)
-        if sensitive_info:
-            print("[+] Potential Sensitive Information Leakage Found!")
-            print("   - Sensitive Information:", sensitive_info)
-        else:
-            print("x Information Leakage")
-    except Exception as e:
-        print("!! ERROR:", str(e))
 
-# 目录遍历漏洞检测函数 TODO
-def detect_directory_traversal(url):
-    try:
-        # 构造目录遍历Payload
-        traversal_url = url + "../../../../../../../../etc/passwd"
-        response = requests.get(traversal_url)
-        
-        # 检查响应中是否包含敏感文件内容
-        if 'root:' in response.text:
-            print("[+] Directory Traversal Vulnerability Found")
-        else:
-            print("x Directory Traversal")
-    except Exception as e:
-        print("!! ERROR:", str(e))
-
-# 服务端信息泄露检测函数 TODO
-def detect_server_info_leakage(url):
-    try:
-        response = requests.get(url)
-        server_header = response.headers.get('Server')
-        if server_header:
-            print("[+] Server Information Leakage Found")
-            print("   - Server Header:", server_header)
-        else:
-            print("x Server Information Leakage")
-    except Exception as e:
-        print("!! ERROR:", str(e))
 
 
 print("Web Vulnerability Scanner CLI")
@@ -132,9 +92,5 @@ session = requests.Session()
 vulnerabilities = []
 print("Scanning")
 detect_xss(url)
-detect_sql_injection(url)
 detect_csrf(url, session)
 try_login(url, username, password)
-detect_sensitive_info_leakage(url)
-detect_directory_traversal(url)
-detect_server_info_leakage(url)

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CSRF Vulnerability Test</title>
+  </head>
+  <body>
+    <h1>CSRF Vulnerability Test Page</h1>
+    <form id="csrf-form" action="#" method="POST">
+      <input type="hidden" name="_csrf" value="valid_csrf_token" />
+      <button type="submit">Submit</button>
+    </form>
+
+    <script>
+      // 在页面加载时提交表单，如果存在CSRF漏洞，则会提交成功
+      window.onload = function () {
+        document.getElementById("csrf-form").submit();
+      };
+    </script>
+  </body>
+</html>
